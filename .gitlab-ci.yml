@@ -29,6 +29,7 @@ test:
   image: $IMAGE:latest
 
   script:
+    - npm install
     - npm test
     
 
