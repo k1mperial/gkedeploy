@@ -1,7 +1,6 @@
 image: docker:stable
 
 stages:
-  - build
   - test
   
 
@@ -29,7 +28,6 @@ test:
   image: $IMAGE:latest
 
   script:
-    - npm install
     - npm test
     
 
