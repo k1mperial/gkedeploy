@@ -27,10 +27,10 @@ build:
 test:
   stage: test
   image: $IMAGE:latest
-  before script:
+  before_script:
     - npm start
   script:
     - npm test
-  after script:
+  after_script:
     - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
 
