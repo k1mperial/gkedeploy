@@ -1,28 +1,28 @@
 image: docker:stable
 
 stages:
-  - build
+  # - build
   - test
   
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
 
-build:
-  stage: build
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $IMAGE:latest || true
-    - docker build
-        --cache-from $IMAGE:latest
-        --tag $IMAGE:latest
-        --file ./Dockerfile
-        "."
-    - docker push $IMAGE:latest
+# build:
+#   stage: build
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker pull $IMAGE:latest || true
+#     - docker build
+#         --cache-from $IMAGE:latest
+#         --tag $IMAGE:latest
+#         --file ./Dockerfile
+#         "."
+#     - docker push $IMAGE:latest
 
 test:
   stage: test
@@ -32,6 +32,7 @@ test:
   variables:
     DOCKER_DRIVER: overlay2
   before_script:
+    - npm install
     - nohup node server.js &
   script:
     - npm run test
