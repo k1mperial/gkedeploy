@@ -1,7 +1,7 @@
 image: docker:stable
 
 stages:
-  - build
+
   - test
   
 
@@ -27,8 +27,6 @@ build:
 test:
   stage: test
   image: $IMAGE:latest
-  before_script:
-    - npm start &
   script:
     - npm test
   after_script:
