@@ -1,7 +1,7 @@
 image: docker:stable
 
 stages:
-  - build
+  # - build
   - test
   
 
@@ -27,7 +27,14 @@ build:
 test:
   stage: test
   image: $IMAGE:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
   script:
-    - npm test
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE:latest || true
+    - docker run -p 3000:3000 -d $IMAGE:latest npm test
+    
  
 
