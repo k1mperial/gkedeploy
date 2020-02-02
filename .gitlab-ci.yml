@@ -29,6 +29,5 @@ test:
   image: $IMAGE:latest
   script:
     - npm test
-  after_script:
-    - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
+ 
 
