@@ -28,7 +28,7 @@ test:
   stage: test
   image: $IMAGE:latest
   before_script:
-    - npm start
+    - npm start &
   script:
     - npm test
   after_script:
