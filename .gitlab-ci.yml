@@ -22,12 +22,6 @@ variables:
 #         --cache-from $IMAGE:latest
 #         --tag $IMAGE:latest
 #         --file ./Dockerfile
-#         "."
-#     - docker push $IMAGE:latest
-
-cache:
-  paths:
-  - node_modules/
 
 test:
   stage: test
@@ -38,8 +32,8 @@ test:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-  # before_script:
-  #   - npm install
+  before_script:
+    - npm install
   script:
     - npm start > nodeserver.log 2>&1
   after_script:
