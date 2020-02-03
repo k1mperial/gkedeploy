@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM node:4.2.2
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN mkdir -p /usr/src/app
 EXPOSE 3000

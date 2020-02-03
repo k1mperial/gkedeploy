@@ -27,7 +27,7 @@ build:
 test:
   stage: test
   image: 
-    name: alpine:latest
+    name: $IMAGE:latest
     entrypoint: [""]
   services:
     - docker:dind
