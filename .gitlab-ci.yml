@@ -34,7 +34,7 @@ test:
   variables:
     DOCKER_DRIVER: overlay2
   script:
-    - docker run -p 3000:3000 -d $IMAGE:latest
+    - npm test
   after_script:
     - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
     
