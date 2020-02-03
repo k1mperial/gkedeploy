@@ -4,7 +4,7 @@
   "description": "Tutorial leading to a deployment of a simple Node.js app to gcloud",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nohup node server.js &",
     "test": "mocha"
   },
   "keywords": [
