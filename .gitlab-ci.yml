@@ -28,7 +28,7 @@ test:
   stage: test
   image: 
     name: $IMAGE:latest
-    entrypoint: ["/bin/sh", "nohup node server.js &"]
+    entrypoint: [""]
   services:
     - docker:dind
   variables:
