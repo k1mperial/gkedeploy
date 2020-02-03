@@ -26,8 +26,8 @@ variables:
 
 test:
   stage: test
-  image: $IMAGE:latest
-    # name: $IMAGE:latest
+  image: 
+    name: $IMAGE:latest
     entrypoint: ["/usr/src/app/entrypoint.sh"]
   services:
     - docker:dind
