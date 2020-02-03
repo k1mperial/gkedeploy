@@ -1,7 +1,7 @@
 image: docker:stable
 
 stages:
-  - build
+  # - build
   - test
   
 
@@ -35,9 +35,9 @@ test:
     DOCKER_DRIVER: overlay2
   script:
     - nohup node server.js &
-    - npm run test
   after_script:
-    - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
+    - npm run test
+    # - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
     
  
 
