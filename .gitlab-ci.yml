@@ -3,7 +3,8 @@ image: docker:stable
 stages:
   # - build
   - test
-  
+
+
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
@@ -24,6 +25,10 @@ variables:
 #         "."
 #     - docker push $IMAGE:latest
 
+cache:
+  paths:
+  - node_modules/
+
 test:
   stage: test
   image: 
@@ -33,10 +38,10 @@ test:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-  before_script:
-    - npm install
+  # before_script:
+  #   - npm install
   script:
-    - npm start &
+    - npm start > nodeserver.log 2>&1
   after_script:
     - npm test
     
