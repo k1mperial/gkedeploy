@@ -1,2 +1,2 @@
 #!/bin/sh
-nohup node server.js &
+npm start > nodeserver.log 2>&1 &

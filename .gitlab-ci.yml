@@ -34,10 +34,9 @@ test:
   variables:
     DOCKER_DRIVER: overlay2
   script:
-    - npm run test
-  # after_script:
-  #   - npm stop
-    # - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
+    - npm test
+  after_script:
+    - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
     
  
 

@@ -1,5 +1,5 @@
 {
-  "name": "Project1",
+  "name": "gcloud-deploy-node-app-ci-ci-circleci",
   "version": "1.0.0",
   "description": "Tutorial leading to a deployment of a simple Node.js app to gcloud",
   "main": "server.js",

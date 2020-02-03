@@ -1,0 +1,7 @@
+
+> gcloud-deploy-node-app-ci-ci-circleci@1.0.0 start /home/karenroot/Documents/Bootcamp 2019/Books/CICD/project1
+> node server.js
+
+App at: http://localhost:3000
+[0mGET / [32m200 [0m6.607 ms - 850[0m
+[0mGET /favicon.ico [32m200 [0m4.441 ms - 850[0m
