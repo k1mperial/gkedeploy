@@ -28,7 +28,7 @@ test:
   stage: test
   image: 
     name: $IMAGE:latest
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ["/bin/bash", "-i", "-c"]
   services:
     - docker:dind
   variables:
