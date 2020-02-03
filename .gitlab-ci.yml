@@ -35,8 +35,9 @@ test:
   before_script:
     - npm install
   script:
-    - pm2 start npm -- start
+    - pm2 start server.js
     - ps aux | grep node
+    - npm test
     
  
 
