@@ -1,2 +1,2 @@
 #!/bin/sh
-npm start
+nohup node server.js &

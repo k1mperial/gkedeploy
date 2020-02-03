@@ -28,15 +28,15 @@ test:
   stage: test
   image: 
     name: $IMAGE:latest
-    # entrypoint: ["/bin/sh"]
+    entrypoint: ["/usr/src/app/entrypoint.sh"]
   services:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
   script:
     - npm run test
-  after_script:
-    - npm stop
+  # after_script:
+  #   - npm stop
     # - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
     
  

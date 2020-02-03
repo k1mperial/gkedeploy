@@ -4,3 +4,5 @@ App at: http://localhost:3000
 App at: http://localhost:3000
 [0mGET / [36m304 [0m5.708 ms - -[0m
 [0mGET /favicon.ico [36m304 [0m2.347 ms - -[0m
+App at: http://localhost:3000
+[0mGET / [32m200 [0m5.418 ms - 850[0m
