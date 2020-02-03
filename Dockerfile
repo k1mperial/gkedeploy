@@ -1,4 +1,4 @@
-FROM node:4.2.2
+FROM keymetrics/pm2:latest-alpine
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN mkdir -p /usr/src/app
 EXPOSE 3000
