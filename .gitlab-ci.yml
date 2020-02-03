@@ -36,7 +36,6 @@ test:
     - npm install
   script:
     - pm2 start npm -- start
-  after_script:
     - npm test
     
  
