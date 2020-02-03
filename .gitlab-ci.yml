@@ -35,10 +35,11 @@ test:
     DOCKER_DRIVER: overlay2
   before_script:
     - npm install
+    - apt install curl
   script:
     - pm2 start npm -- start
   after_script:
-    - npm test
+    - curl http://localhost:3000
     
  
 
