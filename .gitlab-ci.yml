@@ -36,7 +36,7 @@ test:
     - npm install
   script:
     - pm2 start npm -- start
-    - npm test
+    - ps aux | grep node
     
  
 
