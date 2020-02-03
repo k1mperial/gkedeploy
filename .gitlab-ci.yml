@@ -26,13 +26,15 @@ build:
 
 test:
   stage: test
-  image: $IMAGE:latest
+  image: 
+    name: $IMAGE:latest
+    entrypoint: ["/bin/bash"]
   services:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
   before_script:
-    - npm install
+    # - npm install
     - npm start &
   script:
     - npm test
