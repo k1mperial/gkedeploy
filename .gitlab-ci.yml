@@ -31,8 +31,9 @@ test:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
+  before_script:
+    -kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
   script:
-    - npm install
     - nohup node server.js &
     - npm run test
   after_script:
