@@ -35,7 +35,7 @@ test:
   before_script:
     - npm install
   script:
-    - npm start > nodeserver.log 2>&1
+    - pm2 start npm -- start
   after_script:
     - npm test
     
