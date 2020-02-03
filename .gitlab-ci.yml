@@ -27,17 +27,17 @@ variables:
 test:
   stage: test
   image: 
-    name: $IMAGE:latest
-    entrypoint: ["/bin/bash", "-i", "-c"]
+    name: alpine:latest
+    entrypoint: [""]
   services:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
   before_script:
     # - npm install
-    - npm start &
+    - hostname
   script:
-    - npm test
+    - pwd
   after_script:
     - kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
     
