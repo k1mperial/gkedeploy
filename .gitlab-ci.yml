@@ -5,9 +5,6 @@ stages:
   - test
   # - publish
 
-# variables:
-#   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
-
 build:
   stage: build
   image: docker:latest
@@ -15,18 +12,13 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-  before_script:
-
-  
-
   script:
     - docker build
         --cache-from gcr.io/local-tempo-266715/nodeapp:latest
         --tag gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
-    - echo "$SERVICE_ACCOUNT_KEY" > /tmp/$CI_PIPELINE_ID.json
-    - cat /tmp/$CI_PIPELINE_ID.json | docker login -u _json_key --password-stdin https://eu.gcr.io
+    - cat "$SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://eu.gcr.io
     - docker push gcr.io/local-tempo-266715/nodeapp:latest
 
 test:
