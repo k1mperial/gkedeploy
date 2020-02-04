@@ -17,7 +17,7 @@ build:
     DOCKER_DRIVER: overlay2
   before_script:
   - mkdir -p $HOME/.docker
-  - echo "$GCP_SERVICE_KEY" >> "$HOME/.docker/config.json"
+  - echo "$SERVICE_ACCOUNT_KEY" >> "$HOME/.docker/config.json"
 
   script:
     - docker build
