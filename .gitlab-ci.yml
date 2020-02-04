@@ -3,28 +3,31 @@
 stages:
   - build
   - test
-  # - publish
+  - publish
+
+variables:
+  IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
 
 build:
   stage: build
-  image: docker:latest
   services:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
   script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE:latest || true
     - docker build
-        --cache-from eu.gcr.io/local-tempo-266715/nodeapp:latest
-        --tag eu.gcr.io/local-tempo-266715/nodeapp:latest
+        --cache-from $IMAGE:latest
+        --tag $IMAGE:latest
         --file ./Dockerfile
         "."
-    - cat "$SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://eu.gcr.io
-    - docker push eu.gcr.io/local-tempo-266715/nodeapp:latest
+    - docker push $IMAGE:latest
 
 test:
   stage: test
   image: 
-    name: eu.gcr.io/local-tempo-266715/nodeapp:latest
+    name: $IMAGE:latest
     entrypoint: [""]
   services:
     - docker:dind
@@ -35,21 +38,23 @@ test:
   script:
     - pm2 start server.js
     - npm test
+
     
-# publish:
-#   stage: publish
-#   image: docker:latest
-#   script:
-#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-#     - docker pull $IMAGE:latest || true
-#     - docker build
-#         --cache-from $IMAGE:latest
-#         --tag gcr.io/local-tempo-266715/nodeapp:latest
-#         --file ./Dockerfile
-#         "."
-#     # - echo "$SERVICE_ACCOUNT_KEY" > key.json
-#     # - gcloud auth activate-service-account --key-file key.json
-#     - docker push gcr.io/local-tempo-266715/nodeapp:latest
-#   # only:
-#   #   - master
+publish:
+  stage: publish
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE:latest || true
+    - docker build
+        --cache-from IMAGE:latest
+        --tag eu.gcr.io/local-tempo-266715/nodeapp:latest
+        --file ./Dockerfile
+        "."
+    - cat "$SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://eu.gcr.io
+    - docker push eu.gcr.io/local-tempo-266715/nodeapp:latest
 
