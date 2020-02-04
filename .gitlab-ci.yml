@@ -42,20 +42,17 @@ test:
 publish:
   stage: publish
   image: google/cloud-sdk:latest
-  variables: 
-    - DOCKER_IMAGE_TAG: "gcr.io/local-tempo-266715/nodeapp"
-    - PROJECT_ID: "local-tempo-266715"
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $IMAGE:latest || true
     - docker build
         --cache-from $IMAGE:latest
-        --tag $DOCKER_IMAGE_TAG
+        --tag gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
     - echo "$SERVICE_ACCOUNT_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
-    - docker push ${DOCKER_IMAGE_TAG}
+    - docker push gcr.io/local-tempo-266715/nodeapp:latest
   # only:
   #   - master
 
