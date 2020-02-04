@@ -3,6 +3,7 @@ image: docker:stable
 stages:
   - build
   - test
+  - publish
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
@@ -38,5 +39,23 @@ test:
     - pm2 start server.js
     - npm test
     
-
+publish-image:
+  stage: publish
+  image: google/cloud-sdk:latest
+  variables: 
+    - DOCKER_IMAGE_TAG: 'gcr.io/$PROJECT_ID/nodeapp'
+    - PROJECT_ID: local-tempo-266715
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE:latest || true
+    - docker build
+        --cache-from $IMAGE:latest
+        --tag $DOCKER_IMAGE_TAG
+        --file ./Dockerfile
+        "."
+    - echo "$SERVICE_ACCOUNT_KEY" > key.json
+    - gcloud auth activate-service-account --key-file key.json
+    - docker push ${DOCKER_IMAGE_TAG}
+  # only:
+  #   - master
 
