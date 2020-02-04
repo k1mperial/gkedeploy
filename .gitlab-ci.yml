@@ -15,7 +15,7 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_IMAGE_TAG: 'gcr.io/<PROJECT_ID>/node-kubernetes:v0.0.1'
+    DOCKER_IMAGE_TAG: 'gcr.io/$PROJECT_ID/node-kubernetes:v0.0.1'
     PROJECT_ID: local-tempo-266715
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
