@@ -27,7 +27,7 @@ build:
         --tag gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
-    - docker login -u _json_key --password-stdin https://eu.gcr.io < key.json
+    - docker login -u _json_key -p "$(cat /$HOME/.docker/key.json)" https://gcr.io
     - docker push gcr.io/local-tempo-266715/nodeapp:latest
 
 test:
