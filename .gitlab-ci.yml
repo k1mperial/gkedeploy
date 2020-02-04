@@ -15,16 +15,17 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
+  before_script:
+  - mkdir -p $HOME/.docker
+  - echo "$GCP_SERVICE_KEY" >> "$HOME/.docker/config.json"
+
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull gcr.io/local-tempo-266715/nodeapp:latest || true
     - docker build
         --cache-from gcr.io/local-tempo-266715/nodeapp:latest
         --tag gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
-    - echo "$SERVICE_ACCOUNT_KEY" >> key.json
-    - cat key.json | docker login -u _json_key --password-stdin https://eu.gcr.io
+    - docker login -u _json_key --password-stdin https://eu.gcr.io < $HOME/.docker/config.json
     - docker push gcr.io/local-tempo-266715/nodeapp:latest
 
 test:
