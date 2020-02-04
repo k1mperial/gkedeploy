@@ -14,8 +14,8 @@ build:
     DOCKER_DRIVER: overlay2
   script:
     - docker build
-        --cache-from gcr.io/local-tempo-266715/nodeapp:latest
-        --tag gcr.io/local-tempo-266715/nodeapp:latest
+        --cache-from eu.gcr.io/local-tempo-266715/nodeapp:latest
+        --tag eu.gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
     - cat "$SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://eu.gcr.io
@@ -24,7 +24,7 @@ build:
 test:
   stage: test
   image: 
-    name: gcr.io/local-tempo-266715/nodeapp:latest
+    name: eu.gcr.io/local-tempo-266715/nodeapp:latest
     entrypoint: [""]
   services:
     - docker:dind
