@@ -39,11 +39,11 @@ test:
     - pm2 start server.js
     - npm test
     
-publish-image:
+publish:
   stage: publish
   image: google/cloud-sdk:latest
   variables: 
-    - DOCKER_IMAGE_TAG: "gcr.io/$PROJECT_ID/nodeapp"
+    - DOCKER_IMAGE_TAG: "gcr.io/local-tempo-266715/nodeapp"
     - PROJECT_ID: "local-tempo-266715"
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
