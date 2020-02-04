@@ -17,7 +17,7 @@ build:
     DOCKER_DRIVER: overlay2
   before_script:
 
-  - echo "$SERVICE_ACCOUNT_KEY" >> key.json
+  
 
   script:
     - docker build
@@ -25,7 +25,8 @@ build:
         --tag gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
-    - docker login -u _json_key --password-stdin https://eu.gcr.io < key.json
+    - echo "$SERVICE_ACCOUNT_KEY" > /tmp/$CI_PIPELINE_ID.json
+    - cat /tmp/$CI_PIPELINE_ID.json | docker login -u _json_key --password-stdin https://eu.gcr.io
     - docker push gcr.io/local-tempo-266715/nodeapp:latest
 
 test:
