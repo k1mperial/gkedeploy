@@ -5,8 +5,8 @@ stages:
   - test
   # - publish
 
-variables:
-  IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+# variables:
+#   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
 
 build:
   stage: build
@@ -15,10 +15,6 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-  before_script: 
-    - mkdir -p $HOME/.docker
-    - echo "$SERVICE_ACCOUNT_KEY" >> "$HOME/.docker/key.json"
-
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull gcr.io/local-tempo-266715/nodeapp:latest || true
@@ -27,7 +23,8 @@ build:
         --tag gcr.io/local-tempo-266715/nodeapp:latest
         --file ./Dockerfile
         "."
-    - docker login -u _json_key -p "$(cat /$HOME/.docker/key.json)" https://gcr.io
+    - echo "$SERVICE_ACCOUNT_KEY" >> key.json
+    - cat key.json | docker login -u _json_key --password-stdin https://eu.gcr.io
     - docker push gcr.io/local-tempo-266715/nodeapp:latest
 
 test:
