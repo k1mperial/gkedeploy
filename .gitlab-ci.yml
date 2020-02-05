@@ -72,8 +72,7 @@ deploy:
     CLUSTER_NAME: nodeapp
     COMPUTE_ZONE: europe-west2
   script:
-    - echo "$SERVICE_ACCOUNT_KEY" > key.json
-    - gcloud auth activate-service-account --key-file=key.json
+    - gcloud auth activate-service-account --key-file=$SERVICE_ACCOUNT_KEY
     - gcloud config set project $PROJECT_ID
     - gcloud config set container/cluster $CLUSTER_NAME
     - gcloud config set compute/zone $COMPUTE_ZONE
