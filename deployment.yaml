@@ -32,7 +32,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: gcr.io/local-tempo-266715/node-kubernetes:v0.0.1
+      - image: eu.gcr.io/local-tempo-266715/nodeapp:latest
         name: ci-cd
         ports:
         - containerPort: 3000
