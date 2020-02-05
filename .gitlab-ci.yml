@@ -70,7 +70,7 @@ deploy:
     # DOCKER_IMAGE_TAG: eu.gcr.io/local-tempo-266715/nodeapp:latest
     PROJECT_ID: local-tempo-266715
     CLUSTER_NAME: nodeapp
-    COMPUTE_ZONE: europe-west2
+    COMPUTE_ZONE: europe-west2-b
   script:
     - gcloud auth activate-service-account --key-file=$SERVICE_ACCOUNT_KEY
     - gcloud config set project $PROJECT_ID
