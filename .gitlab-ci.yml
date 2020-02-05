@@ -1,45 +1,45 @@
 
 
 stages:
-  - build
-  - test
+  # - build
+  # - test
   - publish
   - deploy
 
 variables:
   IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
 
-build:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $IMAGE:latest || true
-    - docker build
-        --cache-from $IMAGE:latest
-        --tag $IMAGE:latest
-        --file ./Dockerfile
-        "."
-    - docker push $IMAGE:latest
+# build:
+#   stage: build
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+#     - docker pull $IMAGE:latest || true
+#     - docker build
+#         --cache-from $IMAGE:latest
+#         --tag $IMAGE:latest
+#         --file ./Dockerfile
+#         "."
+#     - docker push $IMAGE:latest
 
-test:
-  stage: test
-  image: 
-    name: $IMAGE:latest
-    entrypoint: [""]
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-  before_script:
-    - npm install
-  script:
-    - pm2 start server.js
-    - npm test
+# test:
+#   stage: test
+#   image: 
+#     name: $IMAGE:latest
+#     entrypoint: [""]
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_DRIVER: overlay2
+#   before_script:
+#     - npm install
+#   script:
+#     - pm2 start server.js
+#     - npm test
 
     
 publish:
@@ -49,16 +49,17 @@ publish:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
+    DOCKER_IMAGE_TAG: eu.gcr.io/local-tempo-266715/nodeapp:latest
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $IMAGE:latest || true
     - docker build
-        --cache-from IMAGE:latest
-        --tag eu.gcr.io/local-tempo-266715/nodeapp:latest
+        --cache-from $IMAGE:latest
+        --tag $DOCKER_IMAGE_TAG
         --file ./Dockerfile
         "."
     - cat "$SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://eu.gcr.io
-    - docker push eu.gcr.io/local-tempo-266715/nodeapp:latest
+    - docker push $DOCKER_IMAGE_TAG
 
 deploy:
   stage: deploy
@@ -67,17 +68,18 @@ deploy:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    # DOCKER_IMAGE_TAG: eu.gcr.io/local-tempo-266715/nodeapp:latest
+    DOCKER_IMAGE_TAG: eu.gcr.io/local-tempo-266715/nodeapp:latest
     PROJECT_ID: local-tempo-266715
     CLUSTER_NAME: nodeapp
     COMPUTE_ZONE: europe-west2-b
+    DEPLOYMENT_NAME: ci-cd
   script:
     - gcloud auth activate-service-account --key-file=$SERVICE_ACCOUNT_KEY
     - gcloud config set project $PROJECT_ID
     - gcloud config set container/cluster $CLUSTER_NAME
     - gcloud config set compute/zone $COMPUTE_ZONE
     - gcloud container clusters get-credentials $CLUSTER_NAME --zone $COMPUTE_ZONE
-    - kubectl create -f deployment.yaml
+    - kubectl set image deployment/$DEPLOYMENT_NAME $DEPLOYMENT_NAME/$DOCKER_IMAGE_TAG
 
 
 
