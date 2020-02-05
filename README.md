@@ -1,4 +1,4 @@
-#CI/CD for Node.js using Gitlab, Kubernetes, and Docker with deployment to Google Kubernetes Engine
+# CI/CD for Node.js using Gitlab, Kubernetes, and Docker with deployment to Google Kubernetes Engine
 
 1. I cloned a simple node app that serves a static HTML page. It also has a test that confirms a status 200 once the server is up and running <br />
 2. Dockerized the app. Configured the pipeline <br />
